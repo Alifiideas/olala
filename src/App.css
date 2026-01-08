@@ -26,4 +26,17 @@ section {
   padding: 60px 40px;
 }
 
+button {
+  background: #646cff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #535bf2;
+}
 

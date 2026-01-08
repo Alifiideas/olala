@@ -3,37 +3,37 @@ import { motion } from "framer-motion";
 function Projects() {
   return (
     <motion.section
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0.2 }
-        }
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
     >
       <h1>Projects</h1>
 
-      {["Portfolio Website", "Todo App", "Weather App"].map((project) => (
-        <motion.div
-          key={project}
-          variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: { opacity: 1, y: 0 }
-          }}
-          style={{
-            background: "#fff",
-            padding: "20px",
-            margin: "15px 0",
-            borderRadius: "8px"
-          }}
+      {/* TODO APP PROJECT */}
+      <motion.div
+        whileHover={{ scale: 1.03 }}
+        style={{
+          background: "#fff",
+          padding: "20px",
+          margin: "20px 0",
+          borderRadius: "10px",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
+        }}
+      >
+        <h2>Todo App (Python)</h2>
+        <p>A simple Todo application built using Python.</p>
+
+        <a
+          href="https://todo-flask.onrender.com"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          {project}
-        </motion.div>
-      ))}
+          <button>View Todo App</button>
+        </a>
+      </motion.div>
     </motion.section>
   );
 }
 
 export default Projects;
+
