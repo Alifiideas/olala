@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Projects() {
   return (
@@ -21,15 +22,12 @@ function Projects() {
         }}
       >
         <h2>Todo App (Python)</h2>
-        <p>A simple Todo application built using Python.</p>
+        <p>A simple Todo application built using Python + Flask.</p>
 
-        <a
-          href="https://todo-flask.onrender.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button>View Todo App</button>
-        </a>
+        {/* Internal navigation */}
+        <Link to="/todo">
+          <button>Open Todo App</button>
+        </Link>
       </motion.div>
     </motion.section>
   );
