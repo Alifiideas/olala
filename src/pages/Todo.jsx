@@ -4,16 +4,15 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
-  // fetch todos from Python
   useEffect(() => {
     fetch("http://127.0.0.1:5000/todos")
       .then(res => res.json())
-      .then(data => setTodos(data));
+      .then(data => setTodos(data))
+      .catch(err => console.error("Fetch error:", err));
   }, []);
 
-  // add todo
   const addTodo = async () => {
-    if (!text) return;
+    if (!text.trim()) return;
 
     await fetch("http://127.0.0.1:5000/todos", {
       method: "POST",
@@ -25,15 +24,6 @@ function Todo() {
     setText("");
   };
 
-  // delete todo
-  const deleteTodo = async (index) => {
-    await fetch(`http://127.0.0.1:5000/todos/${index}`, {
-      method: "DELETE"
-    });
-
-    setTodos(todos.filter((_, i) => i !== index));
-  };
-
   return (
     <section>
       <h1>Todo App (Python Connected)</h1>
@@ -41,16 +31,13 @@ function Todo() {
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Add a todo"
+        placeholder="Add todo"
       />
       <button onClick={addTodo}>Add</button>
 
       <ul>
         {todos.map((todo, i) => (
-          <li key={i}>
-            {todo}
-            <button onClick={() => deleteTodo(i)}>❌</button>
-          </li>
+          <li key={i}>{todo}</li>
         ))}
       </ul>
     </section>
