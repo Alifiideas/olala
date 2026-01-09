@@ -6,6 +6,8 @@ import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import "./App.css";
+import DuplicateDetector from "./pages/DuplicateDetector"; 
+
 
 
 function App() {
