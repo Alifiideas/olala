@@ -10,7 +10,7 @@ function Projects() {
     >
       <h1>Projects</h1>
 
-      {/* TODO APP PROJECT */}
+      {/* TODO APP */}
       <motion.div
         whileHover={{ scale: 1.03 }}
         style={{
@@ -29,7 +29,7 @@ function Projects() {
         </Link>
       </motion.div>
 
-      {/* DUPLICATE IMAGE DETECTOR PROJECT */}
+      {/* DUPLICATE IMAGE DETECTOR */}
       <motion.div
         whileHover={{ scale: 1.03 }}
         style={{
@@ -41,10 +41,13 @@ function Projects() {
         }}
       >
         <h2>Duplicate Image Detector (Python)</h2>
-        <p>Detects duplicate images using Python image hashing.</p>
+        <p>
+          Upload JPG images, detect duplicates using image hashing, and delete
+          selected duplicates.
+        </p>
 
         <Link to="/duplicate-detector">
-          <button>Open Duplicate Image Detector</button>
+          <button>Open Duplicate Detector</button>
         </Link>
       </motion.div>
     </motion.section>
@@ -52,5 +55,3 @@ function Projects() {
 }
 
 export default Projects;
-
-
