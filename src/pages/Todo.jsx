@@ -4,11 +4,14 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
 
+  const fetchTodos = async () => {
+    const res = await fetch("http://127.0.0.1:5000/todos");
+    const data = await res.json();
+    setTodos(data);
+  };
+
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/todos")
-      .then(res => res.json())
-      .then(data => setTodos(data))
-      .catch(err => console.error("Fetch error:", err));
+    fetchTodos();
   }, []);
 
   const addTodo = async () => {
@@ -20,12 +23,12 @@ function Todo() {
       body: JSON.stringify({ text })
     });
 
-    setTodos([...todos, text]);
+    fetchTodos();
     setText("");
   };
 
   return (
-    <section>
+    <section style={{ padding: "40px" }}>
       <h1>Todo App (Python Connected)</h1>
 
       <input
@@ -45,3 +48,5 @@ function Todo() {
 }
 
 export default Todo;
+
+
