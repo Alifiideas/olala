@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
 import os
+from detector import find_duplicates
 
 app = Flask(__name__)
 CORS(app)
@@ -36,6 +37,32 @@ def delete_todo(index):
     todos.pop(index)
     save_todos(todos)
     return jsonify(todos)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route("/upload-images", methods=["POST"])
+def upload_images():
+    files = request.files.getlist("images")
+    for file in files:
+        file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+    return jsonify({"message": "Images uploaded"})
+
+@app.route("/detect-duplicates", methods=["GET"])
+def detect_duplicates():
+    duplicates = find_duplicates(UPLOAD_FOLDER)
+    return jsonify(duplicates)
+
+@app.route("/delete-images", methods=["POST"])
+def delete_images():
+    data = request.json
+    files = data["files"]
+
+    for file in files:
+        path = os.path.join(UPLOAD_FOLDER, file)
+        if os.path.exists(path):
+            os.remove(path)
+
+    return jsonify({"message": "Deleted"})
 
 if __name__ == "__main__":
     app.run(debug=True)

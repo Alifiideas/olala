@@ -19,6 +19,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/todo" element={<Todo />} />
+        <Route path="/duplicate-detector" element={<DuplicateDetector />} />
       </Routes>
     </BrowserRouter>
   );

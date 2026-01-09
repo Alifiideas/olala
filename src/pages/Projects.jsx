@@ -18,15 +18,33 @@ function Projects() {
           padding: "20px",
           margin: "20px 0",
           borderRadius: "10px",
-          boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
+          boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
         }}
       >
         <h2>Todo App (Python)</h2>
         <p>A simple Todo application built using Python + Flask.</p>
 
-        {/* Internal navigation */}
         <Link to="/todo">
           <button>Open Todo App</button>
+        </Link>
+      </motion.div>
+
+      {/* DUPLICATE IMAGE DETECTOR PROJECT */}
+      <motion.div
+        whileHover={{ scale: 1.03 }}
+        style={{
+          background: "#fff",
+          padding: "20px",
+          margin: "20px 0",
+          borderRadius: "10px",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2>Duplicate Image Detector (Python)</h2>
+        <p>Detects duplicate images using Python image hashing.</p>
+
+        <Link to="/duplicate-detector">
+          <button>Open Duplicate Image Detector</button>
         </Link>
       </motion.div>
     </motion.section>
@@ -34,4 +52,5 @@ function Projects() {
 }
 
 export default Projects;
+
 
