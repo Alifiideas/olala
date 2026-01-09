@@ -1,26 +1,18 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import json
 import os
-from detector import find_duplicates
+from PIL import Image
+import imagehash
 
 app = Flask(__name__)
 CORS(app)
 
-FILE = "todos.json"
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-def load_todos():
-    if os.path.exists(FILE):
-        with open(FILE, "r") as f:
-            return json.load(f)
-    return []
+todos = []
 
-def save_todos(todos):
-    with open(FILE, "w") as f:
-        json.dump(todos, f)
-
-todos = load_todos()
-
+# ---------------- TODO API ----------------
 @app.route("/todos", methods=["GET"])
 def get_todos():
     return jsonify(todos)
@@ -29,17 +21,14 @@ def get_todos():
 def add_todo():
     data = request.json
     todos.append(data["text"])
-    save_todos(todos)
-    return jsonify(todos), 201
+    return jsonify({"message": "Todo added"}), 201
 
 @app.route("/todos/<int:index>", methods=["DELETE"])
 def delete_todo(index):
     todos.pop(index)
-    save_todos(todos)
-    return jsonify(todos)
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    return jsonify({"message": "Todo deleted"})
 
+# ---------------- DUPLICATE IMAGE API ----------------
 @app.route("/upload-images", methods=["POST"])
 def upload_images():
     files = request.files.getlist("images")
@@ -49,21 +38,36 @@ def upload_images():
 
 @app.route("/detect-duplicates", methods=["GET"])
 def detect_duplicates():
-    duplicates = find_duplicates(UPLOAD_FOLDER)
+    hashes = {}
+    duplicates = []
+
+    for filename in os.listdir(UPLOAD_FOLDER):
+        path = os.path.join(UPLOAD_FOLDER, filename)
+
+        try:
+            img = Image.open(path)
+            h = imagehash.average_hash(img)
+        except Exception:
+            continue
+
+        if h in hashes:
+            duplicates.append({
+                "original": hashes[h],
+                "duplicate": filename
+            })
+        else:
+            hashes[h] = filename
+
     return jsonify(duplicates)
 
 @app.route("/delete-images", methods=["POST"])
 def delete_images():
-    data = request.json
-    files = data["files"]
-
-    for file in files:
-        path = os.path.join(UPLOAD_FOLDER, file)
+    files = request.json.get("files", [])
+    for f in files:
+        path = os.path.join(UPLOAD_FOLDER, f)
         if os.path.exists(path):
             os.remove(path)
-
-    return jsonify({"message": "Deleted"})
+    return jsonify({"message": "Deleted selected images"})
 
 if __name__ == "__main__":
     app.run(debug=True)
-
